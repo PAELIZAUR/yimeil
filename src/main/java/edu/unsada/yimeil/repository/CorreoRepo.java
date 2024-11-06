@@ -1,13 +1,12 @@
 package edu.unsada.yimeil.repository;
 
 import edu.unsada.yimeil.models.Correo;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
-public interface CorreoRepo extends CrudRepository<Correo, Integer> {
-
-
+@Repository
+public interface CorreoRepo extends JpaRepository<Correo, Integer> {
+    // ...
 }

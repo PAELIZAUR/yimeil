@@ -1,29 +1,37 @@
 package edu.unsada.yimeil.models;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Correo {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "emailId")
     private int emailId;
+
     @Basic
     @Column(name = "subject")
     private String subject;
+
     @Basic
     @Column(name = "body")
     private String body;
+
     @Basic
     @Column(name = "receivedAt")
-    private Timestamp receivedAt;
+    private LocalDateTime receivedAt;  // Usamos LocalDateTime en vez de Timestamp
+
     @OneToMany(mappedBy = "correoByCorreoEmailId")
     private Collection<Attachments> attachmentsByEmailId;
+
     @OneToMany(mappedBy = "correoByCorreoEmailId")
     private Collection<DestinatariosFrom> destinatariosFromsByEmailId;
 
+    // Getters y Setters
     public int getEmailId() {
         return emailId;
     }
@@ -48,36 +56,12 @@ public class Correo {
         this.body = body;
     }
 
-    public Timestamp getReceivedAt() {
+    public LocalDateTime getReceivedAt() {
         return receivedAt;
     }
 
-    public void setReceivedAt(Timestamp receivedAt) {
+    public void setReceivedAt(LocalDateTime receivedAt) {
         this.receivedAt = receivedAt;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Correo correo = (Correo) o;
-
-        if (emailId != correo.emailId) return false;
-        if (subject != null ? !subject.equals(correo.subject) : correo.subject != null) return false;
-        if (body != null ? !body.equals(correo.body) : correo.body != null) return false;
-        if (receivedAt != null ? !receivedAt.equals(correo.receivedAt) : correo.receivedAt != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = emailId;
-        result = 31 * result + (subject != null ? subject.hashCode() : 0);
-        result = 31 * result + (body != null ? body.hashCode() : 0);
-        result = 31 * result + (receivedAt != null ? receivedAt.hashCode() : 0);
-        return result;
     }
 
     public Collection<Attachments> getAttachmentsByEmailId() {
@@ -94,5 +78,18 @@ public class Correo {
 
     public void setDestinatariosFromsByEmailId(Collection<DestinatariosFrom> destinatariosFromsByEmailId) {
         this.destinatariosFromsByEmailId = destinatariosFromsByEmailId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Correo correo = (Correo) o;
+        return emailId == correo.emailId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(emailId);
     }
 }
